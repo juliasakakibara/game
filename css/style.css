@@ -1,0 +1,52 @@
+/*
+font-family: VT323 Regular;
+background-color: #E5D3B3;
+*/
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    
+}
+
+body {
+    font-family: 'VT323', monospace;
+    background-color: #E5D3B3;
+}
+  
+section {
+    width: 100vw;
+    height: 100vh;
+}
+  
+.marquee {
+    width: 100%;
+    border-bottom: 3px solid #2B2B2B;
+    background-color: #2B2B2B;
+    white-space: nowrap;
+}
+  
+.marquee-text {
+    display: inline-block;
+    width: 100%;
+    font-size: 24px;
+    color: #fff;
+    animation: scroll 15s linear infinite;
+}
+  
+.marquee-text:before {
+    content: "404 ERROR - PAGE NOT FOUND";
+}
+  
+  @keyframes scroll {
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+  
+
+  
+  
+  
