@@ -33,6 +33,7 @@ html, body {
     flex-direction: column;
 }
 
+
 #canvas {
     /* border: 1px solid red; */
     background-image: url(../img/game-background.svg);
