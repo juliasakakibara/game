@@ -27,54 +27,21 @@ html, body {
     left: 33vw;
     align-self: flex-end;
     bottom: -20vh; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
-.canvas {
+#canvas {
+    border: 1px solid red;
     background-image: url(../img/game-background.svg);
-    width: 335px;
-    height: 240px;
+    background-size: cover;
     position: absolute;
     left: 75px;
     top: 104px;
 }
 
-
-.orb {
-    width: 50px;
-    height: 50px;
-    background: #999;
-    border-radius: 50px;
-    display: inline-block;
-    margin: 0 24.7px;
-    float: left;
-    transition: all .2s ease-out;
-  }
-  
-  
-  .marquee {
-    height: 200px;
-    width: 800px;
-    border: 2px solid #eee;
-    overflow: hidden;
-    box-sizing: border-box;
-    position: relative;
-    margin: 200px auto;
-  }
-  
-  .marquee--inner {
-    display: block;
-    width: 200%;
-    margin: 70px 0;
-    position: absolute;
-    animation: marquee 20s linear infinite;
-  }
-  
-  span {
-    float: left;
-    width: 50%:
-  }
-  
-  @keyframes marquee {
-    0% { left: 0; }
-    100% { left: -100%; }
-  }
+#player-img {
+    display: none;
+}
