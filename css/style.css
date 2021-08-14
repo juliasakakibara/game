@@ -1,6 +1,7 @@
 /*
 font-family: VT323 Regular;
 background-color: #E5D3B3;
+marquee background-color: #2B2B2B;
 */
 @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 
@@ -11,42 +12,69 @@ background-color: #E5D3B3;
     
 }
 
-body {
-    font-family: 'VT323', monospace;
+html, body {
     background-color: #E5D3B3;
+    font-family: 'VT323', monospace;
+    font-size: 20px;
 }
-  
-section {
-    width: 100vw;
-    height: 100vh;
+
+.gameboy {
+    background-image: url(../img/gameboy.png);
+    background-size:cover;
+    width: 510px;
+    height: 600px;
+    position: relative;
+    left: 33vw;
+    align-self: flex-end;
+    bottom: -20vh; 
 }
-  
-.marquee {
-    width: 100%;
-    border-bottom: 3px solid #2B2B2B;
-    background-color: #2B2B2B;
-    white-space: nowrap;
+
+.canvas {
+    background-image: url(../img/game-background.svg);
+    width: 335px;
+    height: 240px;
+    position: absolute;
+    left: 75px;
+    top: 104px;
 }
-  
-.marquee-text {
+
+
+.orb {
+    width: 50px;
+    height: 50px;
+    background: #999;
+    border-radius: 50px;
     display: inline-block;
-    width: 100%;
-    font-size: 24px;
-    color: #fff;
-    animation: scroll 15s linear infinite;
-}
-  
-.marquee-text:before {
-    content: "404 ERROR - PAGE NOT FOUND";
-}
-  
-  @keyframes scroll {
-    100% {
-      transform: translateX(-100%);
-    }
+    margin: 0 24.7px;
+    float: left;
+    transition: all .2s ease-out;
   }
   
-
   
+  .marquee {
+    height: 200px;
+    width: 800px;
+    border: 2px solid #eee;
+    overflow: hidden;
+    box-sizing: border-box;
+    position: relative;
+    margin: 200px auto;
+  }
   
+  .marquee--inner {
+    display: block;
+    width: 200%;
+    margin: 70px 0;
+    position: absolute;
+    animation: marquee 20s linear infinite;
+  }
   
+  span {
+    float: left;
+    width: 50%:
+  }
+  
+  @keyframes marquee {
+    0% { left: 0; }
+    100% { left: -100%; }
+  }

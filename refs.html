@@ -1,0 +1,42 @@
+<!-- 
+
+ANIMATED MARQUEE
+
+  <section>
+    <div class="marquee">
+    <div class="marquee-text"></div>
+    <div class="marquee-text"></div>
+    <div class="marquee-text"></div>
+  </section>
+
+
+  section {
+    width: 100vw;
+    height: 100vh;
+}
+  
+ .marquee {
+    width: 100%;
+    border-bottom: 3px solid #2B2B2B;
+    background-color: #2B2B2B;
+    white-space: nowrap;
+}
+  
+.marquee-text {
+    display: inline-block;
+    width: 100%;
+    font-size: 24px;
+    color: #fff;
+    animation: scroll 15s linear infinite;
+}
+  
+.marquee-text:before {
+    content: "404 ERROR - PAGE NOT FOUND";
+}
+  
+  @keyframes scroll {
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+-->
