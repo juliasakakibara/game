@@ -43,6 +43,6 @@ html, body {
     top: 104px;
 }
 
-#player-img {
+#player-img, #coronga{
     display: none;
 }

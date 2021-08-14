@@ -15,37 +15,37 @@ const context = canvas.getContext('2d');
 
 
 
-// ------- PLAYER E MOVIMENTO ------- //
+// ------- PLAYER ------- //
 
-/*criando e posicionando o player*/
+/* player's creation and positioning */
   const player = {
     playerImg: document.querySelector('#player'),
-    speed: 8,
+    speed: 10,
     x: 10,
     y: 137
   };
 
 
-  /* movimenta o player */
+  /* player on canvas */
   const drawPlayer = () => {
     context.drawImage(player.playerImg, player.x, player.y, 37, 50);
   };
 
 
-/* limpa o canvas */
+  /* canvas cleanser */
   const clearCanvas = () => {
     context.clearRect(0, 0, canvas.width, canvas.height);
   };
   
 
-  /* atualiza o canvas com a posicao do player */
+  /* calls the function every x time*/
   setInterval(() => {
     clearCanvas();
     drawPlayer();
-  }, 10);
+  }, 5);
 
 
-  /* movimento do player */
+  /* comamnds */
   document.onkeydown = (event) => {
     switch (event.key.toLowerCase()) {
         case "arrowleft":
@@ -62,30 +62,28 @@ const context = canvas.getContext('2d');
   };
 
 
-
-
   // ------- BOUNCING CORONA ------- //
 
 
-//declaring variables
-    const fps = 30;
-    let ballSize = 20;
-    let ballX, ballY;
+/* declaring variables */
+    const fps = 40;
+    let virusSize = 15;
+    let virusX, virusY;
     let xVel, yVel;
 
-// setting interval (game loop))
-    setInterval(update, 200) /*calls something(func) every certain amount of time*/
+/* setting interval (game loop)*/
+    setInterval(update, 5) 
 
-//ball starting position
+/* virus starting position */
 
-    ballX = canvas.width / 2;
-    ballY = canvas.height / 2;
+    virusX = canvas.width / 2;
+    virusY = canvas.height / 2;
 
-// random ball starting speed (pps - pixels per second)
-    xVel = Math.floor(Math.random() * 101 + 10) / fps;
-    yVel = Math.floor(Math.random() * 101 + 10) / fps;
+/* random virus starting speed (pps - pixels per second) */
+    xVel = Math.floor(Math.random() * 50 + 20) / fps;
+    yVel = Math.floor(Math.random() * 50 + 20) / fps;
 
-//random ball direction
+/* random virus direction */
     if (Math.floor(Math.random() * 2) === 0){
         xVel = -xVel;
     }
@@ -93,37 +91,31 @@ const context = canvas.getContext('2d');
         yVel = -yVel;
     }
 
-// update function 
+ /* update function */
     function update() {
-        //move the ball
-        ballX += xVel;
-        ballY += yVel;
 
-        //bounce the ball off each wall
-        if (ballX - ballSize / 2 < 0 && xVel < 0) {
+        //move the virus
+        virusX += xVel;
+        virusY += yVel;
+
+        //bounce the virus off each wall
+        if (virusX - virusSize / 2 < 0 && xVel < 0) {
             xVel = -xVel;
         }
 
-        if (ballX + ballSize / 2 > canvas.width && xVel > 0) {
+        if (virusX + virusSize / 2 > canvas.width && xVel > 0) {
             xVel = -xVel;
         }
 
-        if (ballY - ballSize / 2 < 0 && yVel < 0) {
+        if (virusY - virusSize / 2 < 0 && yVel < 0) {
             yVel = -yVel;
         }
 
-        if (ballY + ballSize / 2 > canvas.height && yVel > 0) {
+        if (virusY + virusSize / 2 > canvas.height && yVel > 0) {
             yVel = -yVel;
         }
 
-
-        //draw background and ball
-        context.fillStyle='green';
-        context.fillRect(ballX - ballSize / 2, ballY - ballSize / 2 ,ballSize,ballSize)
-        
-        
-        
-        
-        
-        
+        //draw background and virus
+        const coronga = document.querySelector('#coronga')
+        context.drawImage(coronga, virusX, virusY, virusSize, virusSize);
     }
