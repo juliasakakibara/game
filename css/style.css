@@ -34,7 +34,7 @@ html, body {
 }
 
 #canvas {
-    border: 1px solid red;
+    /* border: 1px solid red; */
     background-image: url(../img/game-background.svg);
     background-size: cover;
     position: absolute;
