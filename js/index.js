@@ -19,16 +19,19 @@ const context = canvas.getContext('2d');
 
 /* player's creation and positioning */
   const player = {
-    playerImg: document.querySelector('#player'),
+    // playerImg: '<img id="player" src="/img/player1.svg" alt="">',
     speed: 10,
     x: 10,
     y: 137
   };
-
+console.log(player.playerImg)
 
   /* player on canvas */
   const drawPlayer = () => {
-    context.drawImage(player.playerImg, player.x, player.y, 37, 50);
+    let image = new Image;
+    image.src = '../img/player1.svg'
+    image.onload = (e) => {context.drawImage(image, player.x, player.y, 37, 50);}
+    
   };
 
 
@@ -66,7 +69,7 @@ const context = canvas.getContext('2d');
 
 
 /* declaring variables */
-    const fps = 40;
+    const fps = 60;
     let virusSize = 15;
     let virusX, virusY;
     let xVel, yVel;
@@ -116,6 +119,12 @@ const context = canvas.getContext('2d');
         }
 
         //draw background and virus
-        const coronga = document.querySelector('#coronga')
-        context.drawImage(coronga, virusX, virusY, virusSize, virusSize);
+        // const coronga = document.querySelector('#coronga')
+        // context.drawImage(coronga, );
+        const drawCoronga = () => {
+          let image = new Image;
+          image.src = '../img/coronga.svg'
+          image.onload = (e) => {context.drawImage(image,virusX, virusY, virusSize, virusSize)}
+        };
+        drawCoronga();
     }
