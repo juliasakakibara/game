@@ -15,16 +15,18 @@ const context = canvas.getContext('2d');
 
 // set up player
 const player = {
-    speed: 10, // px per second
-    x: 10, // position in x
+    speed: 20, // px per second
+    x: 290, // position in x
     y: 137, //position in y
     r: 50, // radius in px
-    width: 37,
-    height: 50,
+    a: 90 / 180 * Math.PI,
+    width: 37, // players width
+    height: 50, // players height
     canShoot: true,
     handSanitizer: [],
   };
 
+  
 
 //set up viruses
 const virus = {
@@ -54,8 +56,8 @@ const vaccine = {
 
 //set up hand sanitazer
 const handSanitizers = {
-  shoot : 5, // max shoots on screen
-  speed: 50,
+  shoot : 10, // max shoots on screen
+  speed: 10,
 };
 
 
@@ -83,21 +85,20 @@ document.onkeydown = (event) => {
     }
 };
 
-
-
 function shootHandSanitizer() {
   //create hand sanitizer
   if (player.canShoot && player.handSanitizer.length < handSanitizers.shoot) {
     player.handSanitizer.push({
-      x: player.width / 8,
-      y: player.height / 8,
-      xv: handSanitizers.speed / fps,
-      yv: -handSanitizers.speed / fps,
+      x: player.x + player.width / 2, //posicao do shot
+      y: player.y,
+      xv: handSanitizers.speed * Math.cos(player.a),
+      yv: -handSanitizers.speed * Math.sin(player.a),
+      //xv: -handSanitizers.speed / fps, //direcao do shoot
+      //yv: -handSanitizers.speed / fps, 
     })
   }
   //prevent further shooting
-  player.canShoot = false;
-
+  // player.canShoot = false;
 }
 
 function update() {
@@ -165,9 +166,10 @@ function update() {
 
     // draw hand sanitizer
     for (let i = 0; i < player.handSanitizer.length; i++){
-      context.fillStyle='darkblue';
+      context.fillStyle='blue';
       context.beginPath();
-      context.arc(player.handSanitizer[i].x, player.handSanitizer[i].y, player.r / 15, 0, Math.PI * 2, false);
+      context.arc(player.handSanitizer[i].x, player.handSanitizer[i].y, player.r / 15, 45, Math.PI * 2, false);
+      
       context.fill();
             
     }
