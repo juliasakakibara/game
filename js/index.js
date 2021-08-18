@@ -1,9 +1,9 @@
 //declaring variables 
-const fps = 20; // frames per second
+const fps = 30; // frames per second
 const virusSize = 20; //starting size of viruses in px
-const virusNum = 5; //starting number of viruses
+const virusNum = 3; //starting number of viruses
 const vaccineSize = 20; // height and width in px
-const virusSpeed = 800; //starting speed
+const virusSpeed = 80; //starting speed
 const bounding = false; 
 const infecDuration = 0.3; // duration of infectation
 const handSanDist = 0.38; // hand sanitizer distance
@@ -17,9 +17,23 @@ canvas.height = 238;
 const context = canvas.getContext('2d');
 
 
-// set up player
-let player = newPlayer();
+// set up game
+let level, viruses, player;
+newGame();
 
+function newGame() {
+  level = 0;
+  player = newPlayer();
+  newLevel();
+}
+
+function newLevel() {
+  createVirus();  
+}
+
+
+
+// set up player
 function newPlayer() {
   return {
     speed: 30, // px per second
@@ -37,13 +51,10 @@ function newPlayer() {
 }
   
 // set up virus
-let viruses = [];
-createVirus();
-
 function createVirus() {
   viruses = [];
   let x,y;
-  for (let i = 0; i < virusNum; i++){
+  for (let i = 0; i < virusNum + level; i++){
     x= Math.floor(Math.random() * canvas.width);
     y= Math.floor(Math.random() * canvas.height);
     viruses.push(newVirus(x,y));
@@ -51,15 +62,15 @@ function createVirus() {
 }
 
 function newVirus(x,y) {
+ let levelMult = 1 + 0.1 * level;
  let virus = {
     x:x,
     y:y,
-    xv: Math.random() * virusSpeed / fps * Math.random() < 0.5 ? 1 : -1,
-    yv: Math.random() * virusSpeed / fps * Math.random() < 0.5 ? 1 : -1,
+    xv: Math.random() * virusSpeed * levelMult / fps * (Math.random() < 0.5 ? 1 : -1),
+    yv: Math.random() * virusSpeed * levelMult / fps * (Math.random() < 0.5 ? 1 : -1),
     a: Math.random() * Math.PI * 2, //in radians
     r: virusSize / 2,
     size: 20,
-    speed: 50,
  }
  return virus
 };
