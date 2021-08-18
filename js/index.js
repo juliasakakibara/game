@@ -1,11 +1,12 @@
 //declaring variables 
 const fps = 20; // frames per second
 const virusSize = 20; //starting size of viruses in px
-const virusNum = 3; //starting number of viruses
+const virusNum = 5; //starting number of viruses
 const vaccineSize = 20; // height and width in px
-const virusSpeed = 10; //starting speed
+const virusSpeed = 800; //starting speed
 const bounding = false; 
 const infecDuration = 0.3; // duration of infectation
+const handSanDist = 0.38; // hand sanitizer distance
 
 
 // creating canvas
@@ -36,16 +37,6 @@ function newPlayer() {
 }
   
 // set up virus
-// const virus = {
-//   x: Math.random() * canvas.width,
-//   y: Math.random() * canvas.height,
-//   xv: Math.floor(Math.random() * 50 + 100) / fps, // random speed between 100 and 150
-//   yv: Math.floor(Math.random() * 50 + 100) / fps,
-//   r: virusSize / 2,
-//   size: 15,
-//   speed: 10,
-// };
- 
 let viruses = [];
 createVirus();
 
@@ -65,11 +56,10 @@ function newVirus(x,y) {
     y:y,
     xv: Math.random() * virusSpeed / fps * Math.random() < 0.5 ? 1 : -1,
     yv: Math.random() * virusSpeed / fps * Math.random() < 0.5 ? 1 : -1,
-    r: virusSize / 2,
     a: Math.random() * Math.PI * 2, //in radians
     r: virusSize / 2,
-    size: 15,
-    speed: 10,
+    size: 20,
+    speed: 50,
  }
  return virus
 };
@@ -84,8 +74,9 @@ const vaccine = {
 
 //set up hand sanitazer
 const handSanitizers = {
-  shoot : 10, // max on screen
+  shoot : 6, // max on screen
   speed: 12,
+  maxDist: 0.5, // mas dist shot can travel
 
 };
 
@@ -95,12 +86,13 @@ function shootHandSanitizer() {
     player.handSanitizer.push({
       x: player.x + player.width / 2, //posicao do tiro
       y: player.y,
-      xv: handSanitizers.speed * Math.cos(player.a), 
+      xv: handSanitizers.speed * Math.cos(player.a), //direcao do tiro
       yv: -handSanitizers.speed * Math.sin(player.a),
+      dist: 0,
     })
   }
   //prevent further shooting
-  // player.canShoot = false;
+  //  player.canShoot = false;
 }
 
 // set up the game loop
@@ -143,7 +135,7 @@ function infection() {
 };
 
 function vaccination() {
-  context.font='30px VT323';
+  context.font='30px VT323';   
   context.fillStyle='#2B2B2B';
   context.fillText(`${player.vaccination}ST DOSE`,120, 50);
     
@@ -154,10 +146,6 @@ function vaccination() {
   context.fill();
 };
 
-
-
-
-console.log(viruses)
 
 
 
@@ -174,7 +162,7 @@ function update() {
         }
       drawPlayer1();
       } else { // else {blink and return to the staring position};
-        player = newPlayer();
+          player = newPlayer();
       } 
     
 
@@ -193,18 +181,13 @@ function update() {
     //draw viruses
     for(let i = 0; i < viruses.length; i ++) {
       
-        //draw virus
-      const drawVirus = (virus) => {
-        // const virus = {
-        //   x: Math.random() * canvas.width,
-        //   y: Math.random() * canvas.height,
-        //   size: 15,
-        // };
+    //draw virus
+    const drawVirus = (virus) => {
         let image = new Image;
         image.src = '../img/coronga.svg'
         image.onload = (e) => {context.drawImage(image, virus.x, virus.y, virus.size, virus.size)}
-      };
-      drawVirus(viruses[i]);
+    };
+    drawVirus(viruses[i]);
     
 
     //move the virus
@@ -245,14 +228,65 @@ function update() {
       context.arc(player.handSanitizer[i].x, player.handSanitizer[i].y, player.r / 10, 45, Math.PI * 2, false);
       
       context.fill();
-            
     }
 
+    // detect when hand sannitizer hits virus
+    let virX, virY, virR, hsX, hsY;
+    for (let i = viruses.length -1; i  >= 0; i--){
+      //virus prop
+      virX = viruses[i].x;
+      virY = viruses[i].y;
+      virR = viruses[i].size;
+
+      //loop over the hs
+      for (let j = player.handSanitizer.length -1; j  >= 0; j--){
+
+        //hs prop
+        hsX = player.handSanitizer[j].x;
+        hsY = player.handSanitizer[j].y;
+
+        //detect hits
+        if (distBetweenPoints(hsX, hsY, virX, virY) < virR){
+          //remove hand sinitizer
+          player.handSanitizer.splice(j, 1);
+
+          //remove virus
+          viruses.splice(i, 1);
+          break;
+        }
+      }
+    }
+
+
     // throw hand sanitizer
-    for (let i = 0; i < player.handSanitizer.length; i++){
+    for (let i = player.handSanitizer.length -1; i  >= 0; i--){
+      //check dist travelled
+      if(player.handSanitizer[i].dist > handSanDist * canvas.width) {
+        player.handSanitizer.splice(i,1);
+        continue;
+      }
+
+      // move handsanitizer
       player.handSanitizer[i].x += player.handSanitizer[i].xv;
       player.handSanitizer[i].y += player.handSanitizer[i].yv;
+
+      // distance hand sanitizer travel
+      player.handSanitizer[i].dist += Math.sqrt(Math.pow(player.handSanitizer[i].xv, 2) + Math.pow(player.handSanitizer[i].yv, 2))
+      
+      // edge  off the screen
+      if (player.handSanitizer[i].x <0){
+        player.handSanitizer[i].x = canvas.width;
+      } else if (player.handSanitizer[i].x > canvas.width){
+        player.handSanitizer[i].x = 0;
+      }
+
+      if (player.handSanitizer[i].y <0){
+        player.handSanitizer[i].y = canvas.height;
+      } else if (player.handSanitizer[i].y > canvas.height){
+        player.handSanitizer[i].y = 0;
+      }
     }
+
 
     //players boundaries
     if (bounding) {
@@ -279,9 +313,9 @@ function update() {
       context.stroke();
     }
 
-    // checking for virus collision
+    // checking for virus collision - loop no virus tb
     for(let i = 0; i < viruses.length; i++) {
-      if (distBetweenPoints(player.x, player.y, viruses[i].x, viruses[i].y) < (player.width + player.height) / 5 + virusSize / 2) {
+      if (distBetweenPoints(player.x, player.y, viruses[i].x, viruses[i].y) < (player.width + player.height) / 5 + virusSize / 4) {
         infection()
       }
     }
@@ -289,7 +323,8 @@ function update() {
     // checking for vaccine collision
     if (distBetweenPoints(player.x, player.y, vaccine.x, vaccine.y) < (player.width + player.height) / 4 + vaccineSize / 2) {
       vaccination()
-      player.vaccination++;     
+      player.vaccination++;     //splice
+      
     }
 
 
@@ -302,5 +337,3 @@ function update() {
 
 
   }
-  
-    
