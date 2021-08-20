@@ -1,5 +1,5 @@
 //declaring variables 
-const fps = 30; // frames per second
+const fps = 20; // frames per second
 const virusNum = 3; // starting number of viruses
 const virusSize = 20; // starting size of viruses
 const virusSpeed = 50; // max starting speed of viruses
@@ -9,10 +9,29 @@ const invisDuration = 3; // invisibility during death
 const blinkDuration = 0.1; // blink during invisibility 
 const maxHandSanitizer = 6 //max num of shots on screen
 const handSanDist = 0.38; // hand sanitizer distance
-const textSize = 40; // font size
 const txtFade = 2; // txt fade
-const gameLives = 3; //starting game lives
+const gameLives = 1; //starting game lives
 const heartSize = 15;
+
+let isGameOver = false;
+
+
+// creating canvas
+canvas  = document.querySelector('#canvas');
+canvas.width = 333;
+canvas.height = 238;
+
+const context = canvas.getContext('2d');
+
+// set up the game loop
+setInterval(() => {
+  if (isGameOver) {
+
+    return gameOver();
+  }
+  return update();
+},1000 / fps) 
+
 
 
 
@@ -29,27 +48,27 @@ function newGame() {
 }
 
 function newLevel() {
-  text = 'Level' + (level + 1);
   txtAlpha = 1;
   createPandemic();  
 }
 
 function gameOver() {
+  context.fillStyle=`rgba(43, 43, 43, ${txtAlpha})`;
+  context.font='60px VT323';   
+  context.textAlign='center';
+  context.textBaseline='center';
+  context.fillText(`GAME OVER`,canvas.width / 2, canvas.height / 3);
+  txtAlpha -= (1 / txtFade / fps);
+
   player.dead = true;
-  text = 'GAME OVER';
   txtAlpha = 1;
+  newGame();
+
 }
 
 
-// creating canvas
-canvas  = document.querySelector('#canvas');
-canvas.width = 333;
-canvas.height = 238;
 
-const context = canvas.getContext('2d');
 
-// set up the game loop
-setInterval(update, 1000 / fps ) 
 
 //set up player
 function newPlayer() {
@@ -80,8 +99,6 @@ function getSick() {
 };
 
 //set up virus
-
-
 function createPandemic(){
   viruses= [];
   let x,y;
@@ -123,20 +140,20 @@ function destroyVirus(index) {
     //new level
     if(viruses.length === 0) {
       level++;
+
+      context.fillStyle=`rgba(43, 43, 43, ${txtAlpha})`;
+      context.font='40px VT323';   
+      context.textAlign='center';
+      context.textBaseline='center';
+      context.fillText(`Level ${level + 1}`,canvas.width / 2, canvas.height / 3);
+      txtAlpha -= (1 / txtFade / fps);
+
       newLevel();
     }
   }
   
 };
 
-function drawHearts(x, y, a) {
-  const drawVirus = () => {
-    let image = new Image;
-    image.src = '../img/full-heart.svg'
-    image.onload = (e) => {context.drawImage(image, 10, 10, 15, 12)}
-};
-drawVirus();
-};
 
 
 //set up hand sanitazer
@@ -229,11 +246,11 @@ function update() {
 
   }
 
-  
+
   //clear canvas
   const clearCanvas = () => {context.clearRect(0, 0, canvas.width, canvas.height);};
   clearCanvas();
- 
+
   if(!gettingSick) {
       if(player.blinkNum === 0){
 
@@ -250,13 +267,12 @@ function update() {
     if(player.collision === 0){
       lives--;
       if( lives === 0){
-        gameOver();
+        isGameOver = true;
       }else {
         player = newPlayer();        
       }
     }
   }
-   
 
   //players edge of canvas
   if (player.x < 0 - player.r) {
@@ -383,25 +399,20 @@ function update() {
     }
   }
 
-  // draw games text
-  if (txtAlpha >= 0){
-    context.fillStyle=`rgba(43, 43, 43, ${txtAlpha})`;
-    context.font='40px VT323';   
-    context.textAlign='center';
-    context.textBaseline='center';
-    context.fillText(`Level ${level + 1}`,canvas.width / 2, canvas.height / 3);
-    txtAlpha -= (1 / txtFade / fps);
-  }
   
   //draw the lives
-  for (let i = 0; i < lives; i++) {
-    drawHearts(heartSize + i * heartSize * 1.2, heartSize, 0.5 * Math.PI);
+  
+  const drawHeart = (positionX) => {
+    let image = new Image;
+    image.src = '../img/full-heart.svg'
+    image.onload = (e) => {context.drawImage(image, 10 + positionX * 20, 10, 15, 12)}
   };
 
+  for (let i = 0; i < lives; i++) {
+    drawHeart(i);    
+  };
   
-
-
-
+  
 
 
 };
