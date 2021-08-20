@@ -33,11 +33,7 @@ function newGame() {
   newLevel();
 }
 
-function newLevel() {
-  text = 'Level' + (level + 1);
-  txtAlpha = 1;
-  createVirus();  
-}
+
 
 
 
@@ -97,7 +93,6 @@ const handSanitizers = {
   shoot : 6, // max on screen
   speed: 12,
   maxDist: 0.5, // mas dist shot can travel
-
 };
 
 function shootHandSanitizer() {
