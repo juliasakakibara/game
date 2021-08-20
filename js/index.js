@@ -1,3 +1,5 @@
+
+
 //declaring variables 
 const fps = 20; // frames per second
 const virusNum = 3; // starting number of viruses
@@ -26,7 +28,7 @@ const context = canvas.getContext('2d');
 // set up the game loop
 setInterval(() => {
   if (isGameOver) {
-
+    
     return gameOver();
   }
   return update();
@@ -54,7 +56,7 @@ function newLevel() {
 
 function gameOver() {
   context.fillStyle=`rgba(43, 43, 43, ${txtAlpha})`;
-  context.font='60px VT323';   
+  context.font='50px VT323';   
   context.textAlign='center';
   context.textBaseline='center';
   context.fillText(`GAME OVER`,canvas.width / 2, canvas.height / 3);
@@ -62,7 +64,7 @@ function gameOver() {
 
   player.dead = true;
   txtAlpha = 1;
-  newGame();
+  // newGame();
 
 }
 
@@ -217,7 +219,7 @@ function update() {
       //draw player
       const drawPlayer1 = () => {
         let image = new Image;
-        image.src = '../img/player1.svg';
+        image.src = 'https://drive.google.com/file/d/1EVIDxSfOSv0_sco_24mmvEXyR6siW8Ky/view';
         image.onload = (e) => {context.drawImage(image, player.x, player.y, player.width, player.height)} 
         }
       drawPlayer1();
@@ -238,7 +240,7 @@ function update() {
     //dead player
     const drawPlayer1 = () => {
       let image = new Image;
-      image.src = '../img/player1MORTO.svg';
+      image.src = 'player1MORTO.svg';
       image.onload = (e) => {context.drawImage(image, player.x, player.y, player.width, player.height)} 
       }
     drawPlayer1();
@@ -302,7 +304,7 @@ function update() {
 
     const drawVirus = (virus) => {
       let image = new Image;
-      image.src = '../img/coronga.svg'
+      image.src = 'coronga.svg'
       image.onload = (e) => {context.drawImage(image, virus.x, virus.y, virus.size, virus.size)}
     };
     drawVirus(viruses[i]);
@@ -404,15 +406,12 @@ function update() {
   
   const drawHeart = (positionX) => {
     let image = new Image;
-    image.src = '../img/full-heart.svg'
+    image.src = 'full-heart.svg';
     image.onload = (e) => {context.drawImage(image, 10 + positionX * 20, 10, 15, 12)}
   };
 
   for (let i = 0; i < lives; i++) {
     drawHeart(i);    
   };
-  
-  
-
 
 };
