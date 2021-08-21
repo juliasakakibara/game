@@ -12,12 +12,12 @@ const blinkDuration = 0.1; // blink during invisibility
 const maxHandSanitizer = 6 //max num of shots on screen
 const handSanDist = 0.38; // hand sanitizer distance
 const txtFade = 2; // txt fade
-const gameLives = 3; //starting game lives
+const gameLives = 1; //starting game lives
 const heartSize = 15;
 
 let isGameOver = false;
 
-
+let interval;
 // creating canvas
 canvas  = document.querySelector('#canvas');
 canvas.width = 333;
@@ -26,22 +26,24 @@ canvas.height = 238;
 const context = canvas.getContext('2d');
 
 // set up the game loop
-setInterval(() => {
+interval = setInterval(() => { 
   if (isGameOver) {
-    // createBtn();
+    createBtn();
+    clearInterval(interval)
     return gameOver();
   }
   return update();
 },1000 / fps) 
 
 
-// function createBtn() {
-//   const btn = document.createElement('button');
-//   btn.innerText = 'Restart';
-//   btn.addEventListener('click', newGame)
-//   btn.classList.add('restart-btn');
-//   document.body.appendChild(btn) 
-// }
+function createBtn() {
+  const btn = document.createElement('button');
+  btn.innerText = 'Restart';
+  btn.addEventListener('click', () => window.location.reload())
+  btn.classList.add('restart-btn');
+  document.body.appendChild(btn)
+  console.log('oi') 
+}
 
 
 // set up game
@@ -53,6 +55,7 @@ function newGame() {
   level = 0;
   player = newPlayer();
   newLevel();
+  console.log('lalala')
 
 }
 
@@ -247,7 +250,7 @@ function update() {
     //dead player
     const drawPlayer1 = () => {
       let image = new Image;
-      image.src = '../img/player1MORTO.svg';
+      image.src = './img/player1MORTO.svg';
       image.onload = (e) => {context.drawImage(image, player.x, player.y, player.width, player.height)} 
       }
     drawPlayer1();
@@ -311,7 +314,7 @@ function update() {
 
     const drawVirus = (virus) => {
       let image = new Image;
-      image.src = '../img/coronga.svg'
+      image.src = './img/coronga.svg'
       image.onload = (e) => {context.drawImage(image, virus.x, virus.y, virus.size, virus.size)}
     };
     drawVirus(viruses[i]);
@@ -413,7 +416,7 @@ function update() {
   
   const drawHeart = (positionX) => {
     let image = new Image;
-    image.src = '../img/full-heart.svg';
+    image.src = './img/full-heart.svg';
     image.onload = (e) => {context.drawImage(image, 10 + positionX * 20, 10, 15, 12)}
   };
 
