@@ -38,7 +38,6 @@ interval = setInterval(() => {
 
 function createBtn() {
   const btn = document.createElement('button');
-  btn.innerText = 'Restart';
   btn.addEventListener('click', () => window.location.reload())
   btn.classList.add('restart-btn');
   document.body.appendChild(btn)

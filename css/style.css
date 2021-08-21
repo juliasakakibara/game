@@ -45,7 +45,16 @@ html, body {
 
 .restart-btn {
     text-decoration: none;
-    outline: transparent;
-    background-color: teal;
+    outline: none;
+    background-color: #A2E2FC;
+    border: none;
+    background-image: url('../img/restart-btn.svg');
+    background-size: cover;
+    width: 100px;
+    height: 45px;
+    z-index: 100;
+    position: absolute;
+    left: 52%;
+    bottom: 48%;
 }
 
