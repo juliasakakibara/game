@@ -43,3 +43,9 @@ html, body {
     top: 104px;
 }
 
+.restart-btn {
+    text-decoration: none;
+    outline: transparent;
+    background-color: teal;
+}
+
