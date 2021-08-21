@@ -1,5 +1,3 @@
-
-
 //declaring variables 
 const fps = 20; // frames per second
 const virusNum = 3; // starting number of viruses
@@ -12,12 +10,13 @@ const blinkDuration = 0.1; // blink during invisibility
 const maxHandSanitizer = 6 //max num of shots on screen
 const handSanDist = 0.38; // hand sanitizer distance
 const txtFade = 2; // txt fade
-const gameLives = 1; //starting game lives
+const gameLives = 3; //starting game lives
 const heartSize = 15;
 
 let isGameOver = false;
-
 let interval;
+
+
 // creating canvas
 canvas  = document.querySelector('#canvas');
 canvas.width = 333;
@@ -73,13 +72,7 @@ function gameOver() {
 
   player.dead = true;
   txtAlpha = 1;
-  // newGame();
-
 }
-
-
-
-
 
 //set up player
 function newPlayer() {
